@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React,{useState, useEffect, useRef} from 'react';
 
 function App() {
+  const [todos, setTodos] = useState([{name: 'Learn React', complete: false}]);
+  const nameRef = useRef();
+
+  const handleClick = () => {
+    const name = nameRef.current.value;
+    setTodos([...todos, {name, complete: false}]);
+    nameRef.current.value = '';
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>Todo App</h1>
+      <ul>
+        {todos.map((todo, index) => (
+          <li key={index}>
+            <input type='checkbox' />
+            {todo.name}
+          </li>
+        ))}
+      </ul>
+      <input ref={nameRef} type="text" />
+      <button onClick={handleClick}>Add</button>
+      <br/>
+      <button>Clear complete</button>
+    </>
   );
 }
 
