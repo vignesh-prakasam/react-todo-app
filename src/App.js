@@ -1,5 +1,6 @@
 import React,{useState, useEffect, useRef} from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import Todo from './Todo';
 import './App.css';
 const LOCAL_STORAGE_KEY = 'todoApp.todos';
 
@@ -37,16 +38,16 @@ function App() {
     setTodos(newTodos);
   }
 
+  const removeTodo = (id) => {
+    setTodos(todos.filter(td => td.id !== id))
+  }
+
   return (
     <div className="app-container">
       <h1>Todo App</h1>
       <ul>
         {todos.map((todo) => (
-          <li key={todo.id}>
-            <input type='checkbox' checked={todo.complete} onChange={ ()=> {toggleCompleted(todo.id)} }/>
-            {todo.name}
-            <button onClick={() => setTodos(todos.filter(td => td.id !== todo.id))}> Remove </button>
-          </li>
+            <Todo key={todo.id} todo={todo} toggleCompleted={toggleCompleted} removeTodo={removeTodo}/>
         ))}
       </ul>
       <input ref={nameRef} type="text" />
